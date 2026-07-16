@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Tasmi' Akbar</title>
+    <title>Tasmi' Akbar 30 Juz 1448 H - Saung Al Himam</title>
     <!-- Font Montserrat -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -24,6 +24,15 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(142, 188, 64, 0.1); 
         }
+        
+        /* Style untuk Logo */
+        .logo {
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 180px;
+            height: auto;
+        }
+
         h2 {
             text-align: center;
             color: #7a8084; 
@@ -149,7 +158,15 @@
 <body>
 
 <div class="container">
-    <h2>Pendaftaran Tasmi' Akbar 1448H</h2>
+    <!-- Menampilkan Logo -->
+    <img src="logo.jpg" alt="Logo Saung Al Himam" class="logo">
+    
+    <!-- Judul Baru Sesuai Request -->
+    <h2 style="font-size: 20px; line-height: 1.5; margin-bottom: 25px;">
+        TASMI' AKBAR 30 JUZ <br>
+        <span style="color: #8ebc40; font-size: 18px;">1448 HIJRIAH</span> <br>
+        <span style="font-size: 13px; font-weight: 500; color: #7a8084;">BERSAMA SAUNG TAHFIZH ALHIMAM</span>
+    </h2>
     
     <div id="loading">Menghubungkan ke database...</div>
 
@@ -191,7 +208,7 @@
 
         <div class="form-group">
             <label>Asal Sekolah/Universitas/Instansi</label>
-            <input type="text" name="asal" required placeholder="Tuliskan asal sekolah/universitas/instansi">
+            <input type="text" name="asal" required placeholder="Tuliskan asal instansi">
         </div>
 
         <button type="submit" id="btnSubmit">Daftar Sekarang</button>
@@ -206,8 +223,8 @@
 
 <script>
     // link google apps
-    const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbxLPL27UbxxgH_es02tYBfXLpIMHUFQ4m38NR5vRCjWr8_6RhVA-3LZNUnaGVAKssFjew/exec';
-
+    const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbxLPL27UbxxgH_es02tYBfXLpIMHUFQ4m38NR5vRCjWr8_6RhVA-3LZNUnaGVAKssFjew/exec'; 
+    
     // link grup wa
     const LINK_WA = 'https://chat.whatsapp.com/DEyH7orWUO0Jukh64X3qhL?s=cl&p=a&ilr=0';
 
