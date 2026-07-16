@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Tasmi' Akbar</title>
+    <!-- Font Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f7f9f4; 
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: #ffffff;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(142, 188, 64, 0.1); 
+        }
+        h2 {
+            text-align: center;
+            color: #7a8084; 
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #8ebc40; 
+            outline: none;
+        }
+        .gender-options {
+            display: flex;
+            gap: 20px;
+        }
+        .gender-options label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        #infoJuz {
+            display: none;
+            background-color: #f5faee;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #d1e5b2;
+        }
+        .juz-badge {
+            display: inline-block;
+            background-color: #8ebc40; 
+            color: white;
+            padding: 5px 10px;
+            margin: 3px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .info-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #759e30;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #8ebc40; 
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #759e30; 
+        }
+        button:disabled {
+            background-color: #cbd5c1;
+            cursor: not-allowed;
+        }
+        #loading {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #8ebc40;
+            margin-bottom: 20px;
+        }
+        #success-message {
+            display: none;
+            text-align: center;
+            padding: 25px 20px;
+            background-color: #f5faee;
+            border: 1px solid #8ebc40;
+            border-radius: 8px;
+        }
+        #success-message h3 {
+            color: #759e30;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .wa-btn {
+            display: inline-block;
+            background-color: #25D366; 
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        .wa-btn:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pendaftaran Tasmi'</h2>
+    
+    <div id="loading">Menghubungkan ke database...</div>
+
+    <form id="formDaftar" style="display: none;">
+        <div class="form-group">
+            <label>Jenis Kelamin</label>
+            <div class="gender-options">
+                <label><input type="radio" name="gender" value="Ikhwan" required onchange="updateJuz()"> Laki-laki (Ikhwan)</label>
+                <label><input type="radio" name="gender" value="Akhwat" required onchange="updateJuz()"> Perempuan (Akhwat)</label>
+            </div>
+        </div>
+
+        <div id="infoJuz">
+            <div class="info-title">Juz yang masih kosong:</div>
+            <div id="juzAvailableList"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Pilihan Juz</label>
+            <select name="juz" id="juzSelect" required disabled>
+                <option value="">-- Pilih Jenis Kelamin Dulu --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" name="nama" required placeholder="Masukkan nama lengkap">
+        </div>
+
+        <div class="form-group">
+            <label>No HP / WhatsApp</label>
+            <input type="number" name="no_hp" required placeholder="Contoh: 08123456789">
+        </div>
+
+        <div class="form-group">
+            <label>Domisili</label>
+            <input type="text" name="domisili" required placeholder="Kota asal saat ini">
+        </div>
+
+        <div class="form-group">
+            <label>Asal Sekolah/Universitas/Instansi</label>
+            <input type="text" name="asal" required placeholder="Tuliskan asal sekolah/universitas/instansi">
+        </div>
+
+        <button type="submit" id="btnSubmit">Daftar Sekarang</button>
+    </form>
+
+    <div id="success-message">
+        <h3>Alhamdulillah, Berhasil!</h3>
+        <p>Juz pilihanmu sudah tercatat. Silakan bergabung ke grup WhatsApp untuk informasi selanjutnya.</p>
+        <a href="#" id="linkWa" class="wa-btn" target="_blank">Gabung Grup WA</a>
+    </div>
+</div>
+
+<script>
+    // link google apps
+    const URL_WEB_APP = 'deploy web tasmi'
+AKfycbxLPL27UbxxgH_es02tYBfXLpIMHUFQ4m38NR5vRCjWr8_6RhVA-3LZNUnaGVAKssFjew
+
+https://script.google.com/macros/s/AKfycbxLPL27UbxxgH_es02tYBfXLpIMHUFQ4m38NR5vRCjWr8_6RhVA-3LZNUnaGVAKssFjew/exec'; 
+    
+    // link grup wa
+    const LINK_WA = 'https://chat.whatsapp.com/DEyH7orWUO0Jukh64X3qhL?s=cl&p=a&ilr=0';
+
+    let takenIkhwan = [];
+    let takenAkhwat = [];
+
+    window.onload = function() {
+        fetch(URL_WEB_APP)
+            .then(response => response.json())
+            .then(data => {
+                takenIkhwan = data.taken_ikhwan;
+                takenAkhwat = data.taken_akhwat;
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('formDaftar').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').innerText = 'Gagal memuat data. Silakan refresh halaman.';
+            });
+    }
+
+    function updateJuz() {
+        const gender = document.querySelector('input[name="gender"]:checked').value;
+        const juzSelect = document.getElementById('juzSelect');
+        const infoBox = document.getElementById('infoJuz');
+        const availableList = document.getElementById('juzAvailableList');
+        
+        juzSelect.innerHTML = '<option value="">-- Pilih Juz --</option>';
+        juzSelect.disabled = false;
+        availableList.innerHTML = ''; 
+        infoBox.style.display = 'block';
+
+        const takenList = (gender === "Ikhwan") ? takenIkhwan : takenAkhwat;
+        let countAvailable = 0;
+
+        for (let i = 1; i <= 30; i++) {
+            let option = document.createElement('option');
+            option.value = i;
+            
+            if (takenList.includes(i)) {
+                option.text = `Juz ${i} (Sudah Terisi)`;
+                option.disabled = true;
+            } else {
+                option.text = `Juz ${i}`;
+                
+                let badge = document.createElement('span');
+                badge.className = 'juz-badge';
+                badge.innerText = i;
+                availableList.appendChild(badge);
+                countAvailable++;
+            }
+            juzSelect.appendChild(option);
+        }
+
+        if(countAvailable === 0) {
+            availableList.innerHTML = '<span style="color:red; font-size:13px; font-weight:600;">Mohon maaf, kuota Juz sudah penuh.</span>';
+            document.getElementById('btnSubmit').disabled = true;
+        } else {
+            document.getElementById('btnSubmit').disabled = false;
+        }
+    }
+
+    document.getElementById('formDaftar').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const btnSubmit = document.getElementById('btnSubmit');
+        btnSubmit.innerText = 'Mengirim data...';
+        btnSubmit.disabled = true;
+
+        const formData = new URLSearchParams();
+        const formElements = document.getElementById('formDaftar').elements;
+        
+        for (let i = 0; i < formElements.length; i++) {
+            if (formElements[i].name && (formElements[i].type !== 'radio' || formElements[i].checked)) {
+                formData.append(formElements[i].name, formElements[i].value);
+            }
+        }
+
+        fetch(URL_WEB_APP, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.getElementById('formDaftar').style.display = 'none';
+                
+                const linkWaEl = document.getElementById('linkWa');
+                linkWaEl.href = LINK_WA;
+                
+                document.getElementById('success-message').style.display = 'block';
+            } else {
+                alert(data.message);
+                btnSubmit.innerText = 'Daftar Sekarang';
+                btnSubmit.disabled = false;
+                location.reload(); 
+            }
+        })
+        .catch(error => {
+            alert('Terjadi kesalahan koneksi.');
+            btnSubmit.innerText = 'Daftar Sekarang';
+            btnSubmit.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>
